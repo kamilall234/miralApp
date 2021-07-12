@@ -1,0 +1,24 @@
+micronaut:
+  application:
+    name: productstore
+  server:
+    port: 8010
+datasources:
+  default:
+    url: jdbc:sqlite:db/productMiral.db
+    driverClassName: org.sqlite.JDBC
+    #username: sa
+    #password: ''
+    #schema-generate: CREATE_DROP
+    #dialect: com.miral.configuration.sqllite.SQLLiteDialect
+jpa:
+  default:
+    entity-scan:
+      packages: 'com.miral.dao.model'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: com.miral.configuration.sqllite.SQLLiteDialect
+
+
