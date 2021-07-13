@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 
 
 @Repository
-public abstract class ProductRepository implements CrudRepository<ProductDao, String> {
+public abstract class ProductRepository implements CrudRepository<ProductDao, Long> {
   private final EntityManager entityManager;
 
   public ProductRepository(EntityManager entityManager) {
@@ -23,7 +23,7 @@ public abstract class ProductRepository implements CrudRepository<ProductDao, St
   //@Transactional
   public Optional<ProductDao> saveNewProduct(Product product) {
     var productDao = new ProductDao(product.getGtinNumber(), product.getName(),
-        product.getUnit(), product.getNetVolume());
+        product.getUnit(), product.getNetVolume(), product.getBrand());
     return Optional.of(save(productDao));
   }
 }
