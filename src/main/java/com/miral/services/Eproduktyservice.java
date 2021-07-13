@@ -51,7 +51,6 @@ public class Eproduktyservice {
   private Optional<ProductDao> saveProductToDatabase(ProductDto productDto) {
     var product = new Product(productDto.getResults().getGtinNumber(), productDto.getResults().getName(), productDto.getResults().getUnit(),
         productDto.getResults().getNetVolume(), productDto.getResults().getBrand());
-    logger.info("Saving new product in database: ", product.toString());
     return productRepository.saveNewProduct(product);
   }
 
