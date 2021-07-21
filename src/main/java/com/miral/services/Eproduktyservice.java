@@ -1,9 +1,11 @@
 package com.miral.services;
 
 import com.miral.controller.dto.ProductDto;
-import com.miral.dao.model.ProductDao;
+import com.miral.controller.dto.ProductFromEserviceDto;
+import com.miral.dao.mapper.ProductMapper;
+import com.miral.dao.model.Product;
 import com.miral.dao.repository.ProductRepository;
-import com.miral.services.domain.Product;
+import io.micronaut.context.annotation.Primary;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.RxHttpClient;
@@ -27,44 +29,49 @@ public class Eproduktyservice {
   @Inject
   private ProductRepository productRepository;
 
+  @Inject
+  private ProductMapper productMapper;
+
   public Eproduktyservice(RxHttpClient httpClient) {
     this.httpClient = httpClient;
   }
 
-  public Product getProductyByGtInNumber(String gtinumber) {
+  public ProductDto getProductyByGtInNumber(String gtinumber) {
     var productOptional = getProductFromDatabase(gtinumber);
-    Product product;
+    ProductDto productDto;
     if (productOptional.isPresent()) {
-      product = productOptional.get();
-      logger.info("Product in database: " + product);
+      productDto = productOptional.get();
+      logger.info("Product in database: " + productDto);
     } else {
       logger.info("Sending request to eproduktyAPI for barcode: {}", gtinumber);
-      Flowable<ProductDto> response = httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number="+ gtinumber),
-          ProductDto.class);
-      var productDto = response.blockingFirst();
-      product = mapToProduct(saveProductToDatabase(productDto).orElseThrow());
+      Flowable<ProductFromEserviceDto> response = httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number="+ gtinumber),
+          ProductFromEserviceDto.class);
+      var productFromEserviceDto = response.blockingFirst();
+      productDto = saveProductToDatabase(productFromEserviceDto).orElseThrow();
     }
 
-    return product;
+    return productDto;
   }
 
-  private Optional<ProductDao> saveProductToDatabase(ProductDto productDto) {
-    var product = new Product(productDto.getResults().getGtinNumber(), productDto.getResults().getName(), productDto.getResults().getUnit(),
-        productDto.getResults().getNetVolume(), productDto.getResults().getBrand());
-    return productRepository.saveNewProduct(product);
+  public ProductDto saveNewProductToDatabase(ProductDto productDto) {
+    var product = productMapper.mapToProduct(productDto);
+
+    return Optional.ofNullable(productMapper.mapToProductDto(productRepository.save(product))).orElseThrow();
+  }
+
+  private Optional<ProductDto> saveProductToDatabase(ProductFromEserviceDto productFromEserviceDto) {
+    var product = productMapper.mapToProduct(productFromEserviceDto);
+
+    return Optional.ofNullable(productMapper.mapToProductDto(productRepository.save(product)));
   }
 
   /*Should return not entity*/
-  private Optional<Product> getProductFromDatabase(String gtinNumber) {
-    logger.info("Trying to find product in database with barcode; " + gtinNumber);
+  private Optional<ProductDto> getProductFromDatabase(String gtinNumber) {
+    logger.info(String.format("Trying to find product in database with barcode; %s", gtinNumber));
     var productList = productRepository.findByGtinNumber(gtinNumber);
-    var product = productList.isEmpty() ? null : mapToProduct(productList.stream().findFirst().get());
+    var product = productList.stream().findFirst().stream().map(p -> productMapper.mapToProductDto(p)).findFirst();
 
-    return Optional.ofNullable(product);
+    return product.or(Optional::empty);
   }
 
-  private Product mapToProduct(ProductDao productDao) {
-    return new Product(productDao.getGtinNumber(), productDao.getName(), productDao.getUnit(),
-        productDao.getNetVolume(), productDao.getBrand());
-  }
 }

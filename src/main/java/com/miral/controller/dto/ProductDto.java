@@ -1,69 +1,37 @@
 package com.miral.controller.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-
-@JsonIgnoreProperties()
 public class ProductDto {
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private Integer count;
+  private final String gtinNumber;
+  private final String name;
+  private final Float netVolume;
+  private final String unit;
+  private final String brand;
 
-  private Results results;
-
-  @JsonCreator
-  public ProductDto(@JsonProperty("count") Integer count, @JsonProperty("results") Results results) {
-    this.count = count;
-    this.results = results;
+  public ProductDto(String gtinNumber, String name, Float netVolume, String unit, String brand) {
+    this.gtinNumber = gtinNumber;
+    this.name = name;
+    this.netVolume = netVolume;
+    this.unit = unit;
+    this.brand = brand;
   }
 
-  public Integer getCount() {
-    return count;
+  public String getGtinNumber() {
+    return gtinNumber;
   }
 
-  public Results getResults() {
-    return this.results;
+  public String getName() {
+    return name;
   }
 
-  public static class Results {
-    private String gtinNumber;
-    private String name;
-    private Float netVolume;
-    private String unit;
-    private String brand;
-
-    @JsonCreator
-    public Results(@JsonProperty("gtinNumber") String gtinNumber, @JsonProperty("name") String name,
-                   @JsonProperty("netVolume") Float netVolume, @JsonProperty("unit") String unit,
-                   @JsonProperty("brand") String brand) {
-      this.gtinNumber = gtinNumber;
-      this.name = name;
-      this.netVolume = netVolume;
-      this.unit = unit;
-      this.brand = brand;
-    }
-
-    public String getName() {
-      return this.name;
-    }
-
-    public String getGtinNumber() {
-      return gtinNumber;
-    }
-
-    public Float getNetVolume() {
-      return netVolume;
-    }
-
-    public String getUnit() {
-      return unit;
-    }
-
-    public String getBrand() {
-      return brand;
-    }
+  public Float getNetVolume() {
+    return netVolume;
   }
 
+  public String getUnit() {
+    return unit;
+  }
+
+  public String getBrand() {
+    return brand;
+  }
 }

@@ -1,6 +1,6 @@
 package com.miral.dao.persistListener;
 
-import com.miral.dao.model.ProductDao;
+import com.miral.dao.model.Product;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.data.event.listeners.PostPersistEventListener;
 import io.micronaut.data.event.listeners.PrePersistEventListener;
@@ -12,9 +12,8 @@ import org.slf4j.LoggerFactory;
 public class ProductListener {
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductListener.class);
 
-
   @Singleton
-  PrePersistEventListener<ProductDao> beforeProductSave() {
+  PrePersistEventListener<Product> beforeProductSave() {
     return (produkt) -> {
       LOGGER.debug("Inserting produkt: {} ", produkt);
       return true;
@@ -22,7 +21,7 @@ public class ProductListener {
   }
 
   @Singleton
-  PostPersistEventListener<ProductDao> afterProductSave() {
+  PostPersistEventListener<Product> afterProductSave() {
     return produkt -> {
       LOGGER.debug("Produkt inserted to database: {}", produkt);
     };
