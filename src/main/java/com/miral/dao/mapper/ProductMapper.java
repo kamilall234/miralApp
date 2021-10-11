@@ -3,7 +3,6 @@ package com.miral.dao.mapper;
 import com.miral.controller.dto.ProductDto;
 import com.miral.controller.dto.ProductFromEserviceDto;
 import com.miral.dao.model.Product;
-import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

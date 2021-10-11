@@ -18,7 +18,7 @@ jpa:
     properties:
       hibernate:
         hbm2ddl:
-          auto: create
+          auto: update
         dialect: com.miral.configuration.sqllite.SQLLiteDialect
 
 

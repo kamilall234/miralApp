@@ -1,7 +1,6 @@
 package com.miral.controller;
 
 import com.miral.controller.dto.ProductDto;
-import com.miral.controller.dto.ProductFromEserviceDto;
 import com.miral.services.Eproduktyservice;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;

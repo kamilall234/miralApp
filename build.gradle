@@ -40,7 +40,11 @@ dependencies {
     implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1')
     testImplementation("org.mockito:mockito-core")*/
 
+    annotationProcessor ('org.mapstruct:mapstruct-processor:1.5.0.Beta1')
     annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.reactor:micronaut-reactor")
@@ -49,17 +53,24 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
     implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1')
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation ('org.mapstruct:mapstruct:1.5.0.Beta1')
 }
 
 
 application {
     mainClass.set("com.miral.Application")
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion("11")
     targetCompatibility = JavaVersion.toVersion("11")
 }
+
+/*compileJava {
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=jsr330',
+            '-Amapstruct.defaultInjectionStrategy=constructor'
+    ]
+}*/
 
 

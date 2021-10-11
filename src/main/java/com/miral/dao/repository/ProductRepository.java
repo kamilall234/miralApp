@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 
 @Repository
 public abstract class ProductRepository implements CrudRepository<Product, Long> {
+
   private final EntityManager entityManager;
 
   public ProductRepository(EntityManager entityManager) {

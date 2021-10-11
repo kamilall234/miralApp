@@ -4,7 +4,6 @@ import com.miral.controller.dto.ProductDto;
 import com.miral.controller.dto.ProductFromEserviceDto;
 import com.miral.dao.mapper.ProductMapper;
 import com.miral.dao.repository.ProductRepository;
-import io.micronaut.context.annotation.Import;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.client.HttpClient;
@@ -12,6 +11,7 @@ import io.micronaut.http.client.annotation.Client;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.Optional;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -28,12 +28,11 @@ public class Eproduktyservice {
   @Inject
   private ProductRepository productRepository;
 
-  @Inject
   private ProductMapper productMapper;
 
-  public Eproduktyservice(HttpClient httpClient, ProductMapper productMapper) {
+  public Eproduktyservice(HttpClient httpClient) {
     this.httpClient = httpClient;
-    this.productMapper = productMapper;
+    this.productMapper = Mappers.getMapper(ProductMapper.class);
   }
 
   public ProductDto getProductyByGtInNumber(String gtinumber) {
@@ -41,12 +40,13 @@ public class Eproduktyservice {
     ProductDto productDto;
     if (productOptional.isPresent()) {
       productDto = productOptional.get();
-      logger.info("Product in database: " + productDto);
+      logger.debug(String.format("Product in database: %s", productDto));
     } else {
-      logger.info("Sending request to eproduktyAPI for barcode: {}", gtinumber);
+      logger.debug(String .format("Sending request to eproduktyAPI for barcode: %s", gtinumber));
 
-      Flux<ProductFromEserviceDto> response = Flux.from(httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number=" + gtinumber),
-          ProductFromEserviceDto.class));
+      Flux<ProductFromEserviceDto> response =
+          Flux.from(httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number=" + gtinumber),
+              ProductFromEserviceDto.class));
       var productFromEserviceDto = response.blockFirst();
       productDto = saveProductToDatabase(productFromEserviceDto).orElseThrow();
     }
@@ -68,7 +68,7 @@ public class Eproduktyservice {
 
   /*Should return not entity*/
   private Optional<ProductDto> getProductFromDatabase(String gtinNumber) {
-    logger.info(String.format("Trying to find product in database with barcode; %s", gtinNumber));
+    logger.debug(String.format("Trying to find product in database with barcode; %s", gtinNumber));
     var productList = productRepository.findByGtinNumber(gtinNumber);
     var product = productList.stream().findFirst().stream().map(p -> productMapper.mapToProductDto(p)).findFirst();
 

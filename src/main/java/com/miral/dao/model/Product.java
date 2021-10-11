@@ -1,16 +1,12 @@
 package com.miral.dao.model;
 
-import com.miral.dao.mapper.ProductMapper;
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import net.bytebuddy.implementation.bind.annotation.Default;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.Target;
-import org.mapstruct.TargetType;
 
 
 @Entity
