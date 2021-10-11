@@ -4,7 +4,6 @@ import com.miral.dao.model.Product;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
-import java.util.Optional;
 import javax.persistence.EntityManager;
 
 

@@ -3,14 +3,11 @@ package com.miral.dao.mapper;
 import com.miral.controller.dto.ProductDto;
 import com.miral.controller.dto.ProductFromEserviceDto;
 import com.miral.dao.model.Product;
-import io.micronaut.context.annotation.Primary;
-import javax.inject.Singleton;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "jsr330", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper
 public interface ProductMapper {
 
   @Mapping(source = "results.gtinNumber", target = "gtinNumber")

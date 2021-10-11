@@ -4,7 +4,7 @@ import com.miral.dao.model.Product;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.data.event.listeners.PostPersistEventListener;
 import io.micronaut.data.event.listeners.PrePersistEventListener;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

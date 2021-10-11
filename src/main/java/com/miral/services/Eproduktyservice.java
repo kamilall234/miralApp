@@ -3,19 +3,18 @@ package com.miral.services;
 import com.miral.controller.dto.ProductDto;
 import com.miral.controller.dto.ProductFromEserviceDto;
 import com.miral.dao.mapper.ProductMapper;
-import com.miral.dao.model.Product;
 import com.miral.dao.repository.ProductRepository;
-import io.micronaut.context.annotation.Primary;
+import io.micronaut.context.annotation.Import;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.http.HttpRequest;
-import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
-import io.reactivex.Flowable;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import java.util.Optional;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
 
 @Singleton
 @Requires(property = "eprodukty_api")
@@ -24,7 +23,7 @@ public class Eproduktyservice {
 
   @Client("${eprodukty_api}")
   @Inject
-  private RxHttpClient httpClient;
+  private HttpClient httpClient;
 
   @Inject
   private ProductRepository productRepository;
@@ -32,8 +31,9 @@ public class Eproduktyservice {
   @Inject
   private ProductMapper productMapper;
 
-  public Eproduktyservice(RxHttpClient httpClient) {
+  public Eproduktyservice(HttpClient httpClient, ProductMapper productMapper) {
     this.httpClient = httpClient;
+    this.productMapper = productMapper;
   }
 
   public ProductDto getProductyByGtInNumber(String gtinumber) {
@@ -44,9 +44,10 @@ public class Eproduktyservice {
       logger.info("Product in database: " + productDto);
     } else {
       logger.info("Sending request to eproduktyAPI for barcode: {}", gtinumber);
-      Flowable<ProductFromEserviceDto> response = httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number="+ gtinumber),
-          ProductFromEserviceDto.class);
-      var productFromEserviceDto = response.blockingFirst();
+
+      Flux<ProductFromEserviceDto> response = Flux.from(httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number=" + gtinumber),
+          ProductFromEserviceDto.class));
+      var productFromEserviceDto = response.blockFirst();
       productDto = saveProductToDatabase(productFromEserviceDto).orElseThrow();
     }
 

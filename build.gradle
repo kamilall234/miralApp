@@ -1,6 +1,6 @@
 plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "1.5.3"
+    id("io.micronaut.application") version "2.0.6"
 }
 
 version = "0.1"
@@ -20,24 +20,37 @@ micronaut {
 }
 
 dependencies {
-    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    /*annotationProcessor("io.micronaut.data:micronaut-data-processor")
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    annotationProcessor("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("javax.annotation:javax.annotation-api")
     implementation("org.apache.logging.log4j:log4j-core:2.14.1")
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    /*runtimeOnly("com.h2database:h2")*/
+    *//*runtimeOnly("com.h2database:h2")*//*
     runtimeOnly("org.apache.logging.log4j:log4j-api:2.14.1")
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
     testImplementation("org.assertj:assertj-core")
     implementation("io.micronaut:micronaut-validation")
     implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1')
-    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.mockito:mockito-core")*/
 
-
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.reactor:micronaut-reactor")
+    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
+    implementation("javax.annotation:javax.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+    implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1')
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
 }
 
 
