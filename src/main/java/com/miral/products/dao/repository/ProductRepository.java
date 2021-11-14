@@ -1,6 +1,6 @@
-package com.miral.dao.repository;
+package com.miral.products.dao.repository;
 
-import com.miral.dao.model.Product;
+import com.miral.products.dao.model.Product;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
 import java.util.List;

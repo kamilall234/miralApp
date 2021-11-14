@@ -1,7 +1,8 @@
-package com.miral.dao.model;
+package com.miral.products.dao.model;
 
 import io.micronaut.core.annotation.Creator;
 import io.micronaut.core.annotation.Introspected;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -10,7 +11,6 @@ import org.hibernate.annotations.NaturalId;
 
 
 @Entity
-@Introspected
 @Immutable
 public class Product {
 

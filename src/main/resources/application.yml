@@ -3,6 +3,16 @@ micronaut:
     name: productstore
   server:
     port: 8010
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: 'cGxlYXNlQ2hhbmdlVGhpc1NlY3JldEZvckFOZXdPbmU='
+              base64: true
+              jws-algorithm: HS256
 datasources:
   default:
     url: jdbc:sqlite:db/productMiral.db
@@ -14,7 +24,9 @@ datasources:
 jpa:
   default:
     entity-scan:
-      packages: 'com.miral.dao.model'
+      packages:
+        - 'com.miral.products.dao.model'
+        - 'com.miral.user.dao.model'
     properties:
       hibernate:
         hbm2ddl:

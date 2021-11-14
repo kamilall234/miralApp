@@ -1,6 +1,6 @@
-package com.miral.dao.persistListener;
+package com.miral.products.dao.persistListener;
 
-import com.miral.dao.model.Product;
+import com.miral.products.dao.model.Product;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.data.event.listeners.PostPersistEventListener;
 import io.micronaut.data.event.listeners.PrePersistEventListener;

@@ -1,4 +1,4 @@
-package com.miral.controller.dto;
+package com.miral.products.controller.dto;
 
 public class ProductDto {
   private final String gtinNumber;

@@ -1,4 +1,4 @@
-package com.miral.dao.repository;
+package com.miral.products.dao.repository;
 
 public class NewDeliveryProductRepository {
 }

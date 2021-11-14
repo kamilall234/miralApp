@@ -1,6 +1,6 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.6"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("io.micronaut.application") version "2.0.8"
 }
 
 version = "0.1"
@@ -20,26 +20,6 @@ micronaut {
 }
 
 dependencies {
-    /*annotationProcessor("io.micronaut.data:micronaut-data-processor")
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
-    annotationProcessor("io.micronaut:micronaut-http-validation")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("io.micronaut.reactor:micronaut-reactor-http-client")
-    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
-    implementation("javax.annotation:javax.annotation-api")
-    implementation("org.apache.logging.log4j:log4j-core:2.14.1")
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    *//*runtimeOnly("com.h2database:h2")*//*
-    runtimeOnly("org.apache.logging.log4j:log4j-api:2.14.1")
-    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.14.1")
-    testImplementation("org.assertj:assertj-core")
-    implementation("io.micronaut:micronaut-validation")
-    implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1')
-    testImplementation("org.mockito:mockito-core")*/
-
     annotationProcessor ('org.mapstruct:mapstruct-processor:1.5.0.Beta1')
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.data:micronaut-data-processor")
@@ -50,27 +30,32 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.reactor:micronaut-reactor-http-client")
     implementation("javax.annotation:javax.annotation-api")
-    runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation "org.springframework.security:spring-security-crypto:5.5.3"
+    implementation group: 'commons-logging', name: 'commons-logging', version: '1.2'
+
     implementation(group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.1')
     implementation ('org.mapstruct:mapstruct:1.5.0.Beta1')
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testImplementation("org.mockito:mockito-core:4.0.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
+test {
+    useJUnitPlatform()
+}
 
 application {
     mainClass.set("com.miral.Application")
 }
 
+
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")
 }
-
-/*compileJava {
-    options.compilerArgs += [
-            '-Amapstruct.defaultComponentModel=jsr330',
-            '-Amapstruct.defaultInjectionStrategy=constructor'
-    ]
-}*/
 
 

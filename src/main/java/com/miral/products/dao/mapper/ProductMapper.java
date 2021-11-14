@@ -1,8 +1,8 @@
-package com.miral.dao.mapper;
+package com.miral.products.dao.mapper;
 
-import com.miral.controller.dto.ProductDto;
-import com.miral.controller.dto.ProductFromEserviceDto;
-import com.miral.dao.model.Product;
+import com.miral.products.controller.dto.ProductDto;
+import com.miral.products.controller.dto.ProductFromEserviceDto;
+import com.miral.products.dao.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

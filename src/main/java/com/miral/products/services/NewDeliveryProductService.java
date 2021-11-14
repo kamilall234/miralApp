@@ -1,4 +1,4 @@
-package com.miral.services;
+package com.miral.products.services;
 
 public class NewDeliveryProductService {
 }
