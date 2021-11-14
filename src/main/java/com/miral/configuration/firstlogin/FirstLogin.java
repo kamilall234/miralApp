@@ -6,6 +6,7 @@ import com.miral.user.dao.model.User;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
+import io.micronaut.scheduling.annotation.Async;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -20,6 +21,7 @@ public class FirstLogin {
   private BCryptPasswordEncoderService bCryptPasswordEncoderService;
 
   @EventListener
+  @Async
   public void onStartupEvent(StartupEvent event) {
     var user = userRepository.findByUsername("admin");
 
