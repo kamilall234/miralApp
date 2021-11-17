@@ -12,7 +12,7 @@ import jakarta.inject.Singleton;
 
 @Requires(beans = UserRepository.class)
 @Singleton
-public class FirstLogin {
+public class InitialAcoount {
 
   @Inject
   private UserRepository userRepository;
