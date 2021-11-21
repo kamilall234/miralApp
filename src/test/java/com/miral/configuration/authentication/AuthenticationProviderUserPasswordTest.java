@@ -12,8 +12,6 @@ import com.miral.products.controller.dto.ProductDto;
 import com.miral.products.services.Eproduktyservice;
 import com.miral.user.UserDto;
 import com.miral.user.UserService;
-import com.miral.user.dao.UserRepository;
-import com.miral.user.dao.model.User;
 import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.jwt.SignedJWT;
 import io.micronaut.http.HttpRequest;
@@ -28,7 +26,6 @@ import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import java.text.ParseException;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -54,7 +51,7 @@ class AuthenticationProviderUserPasswordTest {
   @BeforeEach
   void setUp() {
     var product = new ProductDto("123", "name", 123f, "unit", "brand");
-    Mockito.when(eproduktyservice.getProductyByGtInNumber(Mockito.any(String.class))).thenReturn(product);
+    Mockito.when(eproduktyservice.getProductDtoByGtInNumber(Mockito.any(String.class))).thenReturn(product);
   }
 
 

@@ -1,18 +1,20 @@
 package com.miral.products.controller;
 
 import com.miral.products.controller.dto.DeliveryDto;
-import com.miral.products.controller.dto.ProductDeliveryDto;
+import com.miral.products.controller.dto.ProductsDeliveryDto;
 import com.miral.products.dao.mapper.DeliveryMapper;
 import com.miral.products.dao.repository.DeliveryRepository;
 import com.miral.products.services.DeliveryService;
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Status;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
-import java.util.Collection;
 import java.util.NoSuchElementException;
 import org.mapstruct.factory.Mappers;
 
@@ -37,7 +39,22 @@ public class ProductsDelivery {
   }
 
   @Post
-  public HttpResponse<DeliveryDto> createDelivery(DeliveryDto deliveryDto) {
+  @Status(HttpStatus.CREATED)
+  public HttpResponse<DeliveryDto> createDelivery(@Body DeliveryDto deliveryDto) {
     return HttpResponse.ok(deliveryService.createDelivery(deliveryDto));
+  }
+
+  @Post("/addProduct")
+  public HttpResponse<HttpStatus> addProductToDelivery(@Body ProductsDeliveryDto productsDeliveryDto) {
+    this.deliveryService.addProductToStock(productsDeliveryDto);
+
+    return HttpResponse.ok();
+  }
+
+  @Get("/{id}/stock")
+  public HttpResponse<ProductsDeliveryDto> getStockForDeliveryWithId(@PathVariable Long id) {
+    var products = this.deliveryService.getStockForDeliveryWithId(id);
+
+    return HttpResponse.ok(new ProductsDeliveryDto(id, products));
   }
 }

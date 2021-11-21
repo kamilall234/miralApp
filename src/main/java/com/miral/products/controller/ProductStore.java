@@ -25,7 +25,7 @@ public class ProductStore {
 
   @Get
   public HttpResponse<ProductDto> checkProductByGtinNumber(@QueryValue String gtinNumber) {
-    var product = eproduktyservice.getProductyByGtInNumber(gtinNumber);
+    var product = eproduktyservice.getProductDtoByGtInNumber(gtinNumber);
 
     return HttpResponse.ok(product);
   }

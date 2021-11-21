@@ -3,6 +3,7 @@ package com.miral.products.services;
 import com.miral.products.controller.dto.ProductDto;
 import com.miral.products.controller.dto.ProductFromEserviceDto;
 import com.miral.products.dao.mapper.ProductMapper;
+import com.miral.products.dao.model.Product;
 import com.miral.products.dao.repository.ProductRepository;
 import com.miral.products.exception.exceptions.ProductNotFoundExceeption;
 import com.miral.products.exception.exceptions.ProductSaveException;
@@ -37,11 +38,11 @@ public class Eproduktyservice {
     this.productMapper = Mappers.getMapper(ProductMapper.class);
   }
 
-  public ProductDto getProductyByGtInNumber(String gtinumber) {
+  public ProductDto getProductDtoByGtInNumber(String gtinumber) {
     var productOptional = getProductByGtinNumber(gtinumber);
     ProductDto productDto;
     if (productOptional.isPresent()) {
-      productDto = productOptional.get();
+      productDto = productMapper.mapToProductDto(productOptional.get());
     } else {
       Mono<ProductFromEserviceDto> response =
           Mono.from(httpClient.retrieve(HttpRequest.GET("products/get_products/?gtin_number=" + gtinumber),
@@ -69,9 +70,9 @@ public class Eproduktyservice {
         () -> new ProductSaveException(String.format("Save product error: %s", productFromEserviceDto)));
   }
 
-  private Optional<ProductDto> getProductByGtinNumber(String gtinNumber) {
+  public Optional<Product> getProductByGtinNumber(String gtinNumber) {
     var productList = productRepository.findByGtinNumber(gtinNumber);
-    var product = productList.stream().findFirst().stream().map(p -> productMapper.mapToProductDto(p)).findFirst();
+    var product = productList.stream().findFirst();
 
     return product.or(Optional::empty);
   }
